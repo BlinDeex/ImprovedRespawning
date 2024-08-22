@@ -1,0 +1,192 @@
+Configs: {
+	ImprovedRespawningConfig: {
+		InstantRespawn: {
+			Tooltip: Players always instantly respawn on death
+			Label: Instant Respawn
+		}
+
+		RespawnOnBossDeath: {
+			Tooltip: Should players instantly respawn when boss disappears?
+			Label: Respawn On Boss Death
+		}
+
+		BaseScalar: {
+			Tooltip: Respawn timer will always be multiplied by this value
+			Label: Base Scalar
+		}
+
+		BossAliveScalar: {
+			Tooltip: Respawn timer will be multiplied by this value if boss is alive
+			Label: Boss Alive Scalar
+		}
+
+		ExpertModeScalar: {
+			Tooltip: Respawn timer will be multiplied by this value if world is in expert mode
+			Label: Expert Mode Scalar
+		}
+
+		HardmodeScalar: {
+			Tooltip: Respawn timer will be multiplied by this value if world is in hard mode
+			Label: Hard mode Scalar
+		}
+
+		BaseRespawnTimer: {
+			Tooltip: Default respawn timer without any modifications
+			Label: Base Respawn Timer
+		}
+
+		MasterModeScalar: {
+			Tooltip: Respawn timer will be multiplied by this value if world is in master mode
+			Label: Master Mode Scalar
+		}
+
+		EventModeScalar: {
+			Tooltip: Respawn timer will be multiplied by this value if there is an event active
+			Label: Event Mode Scalar
+		}
+
+		BossAdditionPerDeath: {
+			Tooltip: How many seconds will be added per each death to the same boss (each player tracks its own deaths)
+			Label: Boss Addition Per Death
+		}
+
+		LetClientsModifyConfig: {
+			Label: Let Clients Modify Config
+			Tooltip: If this is true everyone will be able to change all config values except this one
+		}
+
+		DisplayName: Improved Respawning Config
+
+		AdditionalSecondsPerPlayer: {
+			Label: Additional Seconds Per Player
+			Tooltip: Additional seconds added to base timer per additional player in the game (Only when boss or invasion is active!)
+		}
+
+		ManaOnRespawn: {
+			Label: Mana On Respawn
+			Tooltip: Percentage of max mana player will respawn with
+		}
+
+		HealthOnRespawn: {
+			Label: Health On Respawn
+			Tooltip: Percentage of max health player will respawn with
+		}
+
+		EnableMaxLivesPerBoss: {
+			Label: Enable Max Lives Per Boss
+			Tooltip: If this is true you will have a limit to how many times can you respawn for same boss fight
+		}
+
+		MaxLivesPerBoss: {
+			Label: Max Lives Per Boss
+			Tooltip: How many lives player will have for same boss fight? (If this is one that means player wont respawn again until boss disappears!)
+		}
+
+		BuffsToSpawnWith: {
+			Label: Buffs To Spawn With
+			Tooltip: ""
+		}
+
+		DisableCalamityRespawnTimers: {
+			Label: Disable Calamity Respawn Timers
+			Tooltip: Ignore this option
+		}
+
+		KeepBuffsOnDeath: {
+			Label: Keep Buffs On Death
+			Tooltip: Do you want to keep your buffs on death?
+		}
+
+		KeptBuffsLengthMultiplier: {
+			Label: Kept Buffs Length Multiplier
+			Tooltip: If you choose to not lose buffs on death, their duration gets multiplied by this value
+		}
+
+		BuffsOnSpawnLength: {
+			Label: Buffs On Spawn Length
+			Tooltip: If you choose to always spawn with some buffs active, this sets their length in seconds
+		}
+
+		Header: {
+			ServerOnly: Server only
+			BaseRespawnTimer: Base respawn timer
+			DifficultyModes: Difficulty modes
+			BossSettings: Boss settings
+			OnRespawn: On respawn
+			Other: Other settings
+			Hardcore: Hardcore
+			MiscScalars: Misc
+		}
+
+		EnableBuffsOnSpawn: {
+			Label: Enable Buffs On Spawn
+			Tooltip: If this is enabled you will always spawn with buffs of your choice
+		}
+
+		DisableTombstones: {
+			Label: Disable Tombstones
+			Tooltip: If this is enabled tombstone will not be spawned
+		}
+
+		EnableMaximumLivesPerPlayer: {
+			Label: Enable Maximum Lives Per Player
+			Tooltip: Enables maximum lives per player
+		}
+
+		MaximumLivesPerPlayer: {
+			Label: Maximum Lives Per Player
+			Tooltip: If maximum lives per player is enabled this will set maximum amount of times player can die before he becomes a ghost
+		}
+
+		EnableMaximumLivesPerWorld: {
+			Label: Enable Maximum Lives Per World
+			Tooltip: Enables maximum lives per world
+		}
+
+		MaximumLivesPerWorld: {
+			Label: Maximum Lives Per World
+			Tooltip: If maximum lives per world is enabled this will set maximum lives before world becomes unplayable (shared between all players)
+		}
+
+		LetClientsReviveThemselves: {
+			Tooltip: mainly exists for cases where settings accidentally end up multiplying death timers into hours soft locking character
+			Label: Let players use revive command
+		}
+
+		EnablePvPDeaths: {
+			Label: Enable PvP Deaths
+			Tooltip: Normally deaths by another player doesnt count but with this setting you can change that
+		}
+
+		LetPlayersUseCheatCommands: {
+			Label: Let Players Use Cheat Commands
+			Tooltip: ""
+		}
+
+		EnableHardcoreUI: {
+			Label: Enable Hardcore UI
+			Tooltip: Enables simple text displaying total player and/or world deaths you can drag around
+		}
+
+		RespawnOnPlayer: {
+			Label: Respawn On Player
+			Tooltip: Respawns on top of another player who is closest to the boss
+		}
+	}
+}
+
+Items: {
+	KingBed: {
+		DisplayName: King Bed
+		Tooltip: ""
+	}
+}
+
+HUD: {
+	RespawnInText: Respawn in
+	PermDeathText: Permanent Death! Wait for boss to disappear
+	YouDiedToThisBossText: You died to this boss {0} out of {1} times!
+	LastChanceText: This is your last chance!
+	RespawnInSecondsText: "{0} {^0:second;seconds}"
+	RespawnInMinutesText: "{0} {^0:minute;minutes} and "
+}

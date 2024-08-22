@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "t1+qlGO17zikVwNr9FPWkRRATVZUeqVm5QGPlIkuS9Z0MiWse3VbDl9ezM6mFwfVLUJVa/gZYNPRJ4NcCU15gg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\BlinDeex\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\ImprovedRespawning\\ImprovedRespawning.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\BlinDeex\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}
