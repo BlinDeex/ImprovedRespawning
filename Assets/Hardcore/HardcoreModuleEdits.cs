@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ImprovedRespawning.Assets.MainClasses;
+using ImprovedRespawning.Assets.Misc;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -34,7 +36,7 @@ public class HardcoreModuleEdits : ModSystem
             DelayedChatMessage message = new()
             {
                 //TODO: broadcasts to everyone and there is no target player param so idk
-                message = "This world has reached its maximum deaths!",
+                message = Localization.WorldHasExceededDeaths.Value,
                 color = Color.Red,
                 ticksDelayed = 60
             };
@@ -46,7 +48,7 @@ public class HardcoreModuleEdits : ModSystem
             HardcoreModuleModSystem.Instance.TurnTargetIntoGhost(self.whoAmI);
             DelayedChatMessage message = new()
             {
-                message = "You are dead for good in this world!",
+                message = Localization.PlayerHasExceededDeaths.Value,
                 color = Color.Red,
                 ticksDelayed = 60
             };

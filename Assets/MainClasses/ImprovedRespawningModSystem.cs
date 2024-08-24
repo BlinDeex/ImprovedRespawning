@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ImprovedRespawning.Assets.Hardcore;
+using ImprovedRespawning.Assets.Misc;
 using ImprovedRespawning.Assets.UI;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.MainClasses;
 
 public class ImprovedRespawningModSystem : ModSystem
 {
@@ -52,7 +52,8 @@ public class ImprovedRespawningModSystem : ModSystem
     {
         if (!Main.dedServ)
         {
-            Utilities.Log("AddAdminUser called not on server!", true);
+            const string message = "AddAdminUser called not on server";
+            Utilities.LogMessage(message, LogType.Warning);
             return;
         }
         
@@ -60,12 +61,12 @@ public class ImprovedRespawningModSystem : ModSystem
         
         if (AuthCode != code)
         {
-            ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral("Invalid code!"), Color.Red, targetUserID);
+            ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral(Localization.CodeInvalid.Value), Color.Red, targetUserID);
             return;
         }
         
         adminUsers.Add(username);
-        ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral("Successfully added user as admin"), Color.Green, targetUserID);
+        ChatHelper.SendChatMessageToClient(NetworkText.FromLiteral(Localization.AddedAdmin.Value), Color.Green, targetUserID);
     }
 
     public bool AreThereAnyAdmins()
@@ -80,7 +81,8 @@ public class ImprovedRespawningModSystem : ModSystem
 
     public void PrintAuthMessage()
     {
-        Utilities.ConsoleMessage($"auth code: {AuthCode}, use command /irauth {AuthCode} to get admin permissions,\nif theres one or more admins, config changes will only be accepted from them. use /ClearAdmins command to clear all admins");
+        string message = Localization.AuthCodeMessage.Format(AuthCode);
+        Utilities.LogMessage(message, LogType.Important);
     }
 
     public void RegenerateAuthCode()

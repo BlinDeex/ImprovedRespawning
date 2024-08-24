@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ImprovedRespawning.Assets.MainClasses;
+using ImprovedRespawning.Assets.Misc;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Terraria;
@@ -10,13 +12,7 @@ using Terraria.ModLoader.IO;
 
 namespace ImprovedRespawning.Assets.Hardcore;
 
-public enum PacketDataType
-{
-    TurnToGhost,
-    CleanseWorld,
-    CleansePlayer,
-    TryAuth
-}
+
 
 public class DelayedChatMessage
 {
@@ -113,8 +109,7 @@ public class HardcoreModuleModSystem : ModSystem
         TotalWorldDeaths++;
         
         if (Main.netMode == NetmodeID.MultiplayerClient) return;
-        
-        string message = $"{playerWhoDied} has been killed! Increasing world deaths to {TotalWorldDeaths}";
+        string message = Localization.PlayerKilledIncreasingWorldDeaths.Format(playerWhoDied, TotalWorldDeaths);
         if (TotalWorldDeaths < ModContent.GetInstance<ImprovedRespawningConfig>().MaximumLivesPerWorld)
         {
             Utilities.BroadcastOrNewText(message, Color.OrangeRed);
@@ -122,7 +117,7 @@ public class HardcoreModuleModSystem : ModSystem
         }
         
         TotalWorldDeathsReached = true;
-        message = "Maximum world deaths have been reached!";
+        message = Localization.WorldHasExceededDeaths.Value;
         Utilities.BroadcastOrNewText(message, Color.Red);
         TurnEveryoneIntoGhost();
     }

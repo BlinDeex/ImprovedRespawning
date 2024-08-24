@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using ImprovedRespawning.Assets.MainClasses;
+using Terraria;
 using Microsoft.Xna.Framework;
 using ReLogic.Graphics;
 using Terraria;
@@ -10,24 +12,8 @@ namespace ImprovedRespawning.Assets.Misc;
 
 public class CustomDeathScreen : ModSystem
 {
-    private static LocalizedText RespawnInText { get; set; }
-    private static LocalizedText RespawnInMinutesText { get; set; }
-    private static LocalizedText RespawnInSecondsText { get; set; }
-    private static LocalizedText LastChanceText { get; set; }
-    private static LocalizedText YouDiedToThisBossText { get; set; }
-    private static LocalizedText PermDeathText { get; set; }
 
-    public override void Load()
-    {
-        RespawnInText = Mod.GetLocalization("HUD.RespawnInText");
-        LastChanceText = Mod.GetLocalization("HUD.LastChanceText");
-        YouDiedToThisBossText = Mod.GetLocalization("HUD.YouDiedToThisBossText");
-        PermDeathText = Mod.GetLocalization("HUD.PermDeathText");
-        RespawnInMinutesText = Mod.GetLocalization("HUD.RespawnInMinutesText");
-        RespawnInSecondsText = Mod.GetLocalization("HUD.RespawnInSecondsText");
-        
-        On_Main.DrawInterface_35_YouDied += DeathScreenRework;
-    }
+    public override void Load() => On_Main.DrawInterface_35_YouDied += DeathScreenRework;
 
     private static void DeathScreenRework(On_Main.orig_DrawInterface_35_YouDied orig)
     {
@@ -68,10 +54,10 @@ public class CustomDeathScreen : ModSystem
         if (config.EnableMaxLivesPerBoss && player.TimesDiedToSameBoss >= config.MaxLivesPerBoss)
         {
             float targetPermDeathX = Main.screenWidth / 2f -
-                                     FontAssets.DeathText.Value.MeasureString(PermDeathText.Value).X / 2f * 0.7f;
+                                     FontAssets.DeathText.Value.MeasureString(Localization.PermDeathText.Value).X / 2f * 0.7f;
             Vector2 targetPermDeathPos = new(targetPermDeathX, currentYOffset);
             Color targetPermDeathColor = new(168, 50, 50, targetTextAlpha.A);
-            Main.spriteBatch.DrawString(FontAssets.DeathText.Value, PermDeathText.Value, targetPermDeathPos,
+            Main.spriteBatch.DrawString(FontAssets.DeathText.Value, Localization.PermDeathText.Value, targetPermDeathPos,
                 targetPermDeathColor, 0f, Vector2.Zero, 0.7f, 0, 0f);
             return;
         }
@@ -79,9 +65,9 @@ public class CustomDeathScreen : ModSystem
         int num = Main.LocalPlayer.respawnTimer / 60;
         int minutes = num / 60;
         int seconds = num % 60 + 1;
-        StringBuilder tillRespawn = new(RespawnInText.Value + " ");
-        if (minutes > 0) tillRespawn.Append(RespawnInMinutesText.Format(minutes));
-        tillRespawn.Append(RespawnInSecondsText.Format(seconds));
+        StringBuilder tillRespawn = new(Localization.RespawnInText.Value + " ");
+        if (minutes > 0) tillRespawn.Append(Localization.RespawnInMinutesText.Format(minutes));
+        tillRespawn.Append(Localization.RespawnInSecondsText.Format(seconds));
 
         string tillRespawnText = tillRespawn.ToString();
 
@@ -95,8 +81,8 @@ public class CustomDeathScreen : ModSystem
 
         if (!config.EnableMaxLivesPerBoss) return;
         if (!modSystem.BossActive) return;
-
-        string livesUsedText = YouDiedToThisBossText.Format(player.TimesDiedToSameBoss, config.MaxLivesPerBoss);
+        
+        string livesUsedText = Localization.YouDiedToThisBossText.Format(player.TimesDiedToSameBoss, config.MaxLivesPerBoss);
         currentYOffset += 50;
         float targetLivesUsedX =
             Main.screenWidth / 2f - FontAssets.DeathText.Value.MeasureString(livesUsedText).X / 2f * 0.7f;
@@ -109,10 +95,10 @@ public class CustomDeathScreen : ModSystem
         currentYOffset += 50;
 
         float targetLastChanceX = Main.screenWidth / 2f -
-                                  FontAssets.DeathText.Value.MeasureString(LastChanceText.Value).X / 2f * 0.7f;
+                                  FontAssets.DeathText.Value.MeasureString(Localization.LastChanceText.Value).X / 2f * 0.7f;
         Vector2 targetLastChancePos = new(targetLastChanceX, currentYOffset);
         Color targetColor = new(131, 50, 168, targetTextAlpha.A);
-        Main.spriteBatch.DrawString(FontAssets.DeathText.Value, LastChanceText.Value, targetLastChancePos,
+        Main.spriteBatch.DrawString(FontAssets.DeathText.Value, Localization.LastChanceText.Value, targetLastChancePos,
             targetColor, 0f, Vector2.Zero, 0.7f, 0, 0f);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using ImprovedRespawning.Assets.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
@@ -11,7 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.MainClasses;
 
 public class ImprovedRespawningEdits : ModSystem
 {
@@ -61,36 +63,49 @@ public class ImprovedRespawningEdits : ModSystem
     private static void GetCalamitySpecialCaseBosses()
     {
         Mod calamity = ImprovedRespawningModSystem.Instance.CalamityMod;
+        List<int> calBosses = [];
+        
+        if (calamity.TryFind("EbonianPaladin", out ModNPC ebonianPaladin))
+        {
+            calBosses.Add(ebonianPaladin.Type);
+        }
+        else
+        {
+            const string message = $"{nameof(GetCalamitySpecialCaseBosses)}: Failed to get {nameof(ebonianPaladin)} ModNPC";
+            Utilities.LogMessage(message, LogType.Warning);
+        }
+        
+        if (calamity.TryFind("CrimulanPaladin", out ModNPC crimulanPaladin))
+        {
+            calBosses.Add(crimulanPaladin.Type);
+        }
+        else
+        {
+            const string message = $"{nameof(GetCalamitySpecialCaseBosses)}: Failed to get {nameof(crimulanPaladin)} ModNPC";
+            Utilities.LogMessage(message, LogType.Warning);
+        }
+        
+        if (calamity.TryFind("SplitEbonianPaladin", out ModNPC splitEbonianPaladin))
+        {
+            calBosses.Add(splitEbonianPaladin.Type);
+        }
+        else
+        {
+            const string message = $"{nameof(GetCalamitySpecialCaseBosses)}: Failed to get {nameof(splitEbonianPaladin)} ModNPC";
+            Utilities.LogMessage(message, LogType.Warning);
+        }
+        
+        if (calamity.TryFind("SplitCrimulanPaladin", out ModNPC splitCrimulanPaladin))
+        {
+            calBosses.Add(splitCrimulanPaladin.Type);
+        }
+        else
+        {
+            const string message = $"{nameof(GetCalamitySpecialCaseBosses)}: Failed to get {nameof(splitCrimulanPaladin)} ModNPC";
+            Utilities.LogMessage(message, LogType.Warning);
+        }
 
-        if (!calamity.TryFind("EbonianPaladin", out ModNPC ebonianPaladin))
-        {
-            Utilities.Log($"Failed to get {nameof(ebonianPaladin)} ModNPC!", true);
-            return;
-        }
-        
-        if (!calamity.TryFind("CrimulanPaladin", out ModNPC crimulanPaladin))
-        {
-            Utilities.Log($"Failed to get {nameof(crimulanPaladin)} ModNPC!", true);
-            return;
-        }
-        
-        if (!calamity.TryFind("SplitEbonianPaladin", out ModNPC splitEbonianPaladin))
-        {
-            Utilities.Log($"Failed to get {nameof(splitEbonianPaladin)} ModNPC!", true);
-            return;
-        }
-        
-        if (!calamity.TryFind("SplitCrimulanPaladin", out ModNPC splitCrimulanPaladin))
-        {
-            Utilities.Log($"Failed to get {nameof(splitCrimulanPaladin)} ModNPC!", true);
-            return;
-        }
-        
-        Utilities.Log("Successfully found all calamity special case bosses!", false);
-
-        int[] calBosses = [ebonianPaladin.Type, crimulanPaladin.Type, splitCrimulanPaladin.Type, splitEbonianPaladin.Type];
-
-        ImprovedRespawningModSystem.Instance.calBosses = calBosses;
+        ImprovedRespawningModSystem.Instance.calBosses = calBosses.ToArray();
     }
     
     private void Test()
@@ -171,11 +186,14 @@ public class ImprovedRespawningEdits : ModSystem
         */
     }
     
+    private FieldInfo damnBosses;
+    
     private void EditCalamity()
     {
         if (!ModLoader.TryGetMod("CalamityMod", out Mod calamity))
         {
-            Utilities.Log("CalamityMod doesnt exist!", false);
+            const string message = "Calamity was not found";
+            Utilities.LogMessage(message, LogType.Debug);
             return;
         }
 
@@ -184,7 +202,8 @@ public class ImprovedRespawningEdits : ModSystem
 
         if (!calamity.TryFind("CalamityPlayer", out ModPlayer calamityPlayer))
         {
-            Utilities.Log("CalamityPlayer doesnt exist!", true);
+            const string message = "CalamityPlayer was not found!";
+            Utilities.LogMessage(message, LogType.Error);
             return;
         }
 
@@ -195,13 +214,15 @@ public class ImprovedRespawningEdits : ModSystem
         
         if (method == null)
         {
-            Utilities.Log("UpdateDead is null", true);
+            const string message = "UpdateDead was not found!";
+            Utilities.LogMessage(message, LogType.Error);
             return;
         }
 
         if (damnBosses == null)
         {
-            Utilities.Log("damnBosses field info is null", true);
+            const string message = "damnBosses was not found!";
+            Utilities.LogMessage(message, LogType.Error);
             return;
         }
         
@@ -209,30 +230,36 @@ public class ImprovedRespawningEdits : ModSystem
         MonoModHooks.Modify(killPlayer, CalamityKillPlayerPatch);
     }
 
-    private FieldInfo damnBosses;
+    
     private void CalamityUpdateDeadPatch(ILContext il)
     {
         ILCursor c = new ILCursor(il);
         if (!c.TryGotoNext(MoveType.AfterLabel, x => x.MatchLdsfld(damnBosses)))
         {
-            Utilities.Log("CalamityUpdateDeadPatch failed at MatchLdsfld damnBosses", true);
+            const string message = $"{nameof(CalamityUpdateDeadPatch)}: Failed at MatchLdsfld damnBosses!";
+            Utilities.LogMessage(message, LogType.Error);
+            return;
         }
 
         c.EmitRet();
-        Utilities.Log("CalamityUpdateDeadPatch successfully applied", false);
+        
+        const string message2 = $"{nameof(CalamityUpdateDeadPatch)}: Successfully applied";
+        Utilities.LogMessage(message2, LogType.Debug);
     }
 
     private void CalamityKillPlayerPatch(ILContext il)
     {
         ILCursor c = new ILCursor(il);
-        if (c.TryGotoNext(MoveType.After, x => x.MatchLdcI4(600)))
+        if (!c.TryGotoNext(MoveType.After, x => x.MatchLdcI4(600)))
         {
-            c.Index -= 3;
-            c.RemoveRange(16);
-            Utilities.Log("CalamityKillPlayerPatch failed at MatchLdcI4 600", true);
+            const string message = $"{nameof(CalamityKillPlayerPatch)}: Failed at MatchLdcI4 600";
+            Utilities.LogMessage(message, LogType.Error);
             return;
         }
-
-        Utilities.Log("CalamityKillPlayerPatch successfully applied", false);
+        
+        c.Index -= 3;
+        c.RemoveRange(16);
+        const string message2 = $"{nameof(CalamityKillPlayerPatch)}: CalamityKillPlayerPatch successfully applied";
+        Utilities.LogMessage(message2, LogType.Debug);
     }
 }

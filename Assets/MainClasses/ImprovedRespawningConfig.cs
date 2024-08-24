@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
+using ImprovedRespawning.Assets.Misc;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader.Config;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.MainClasses;
 
 [BackgroundColor(0, 0, 0, 200)]
 public class ImprovedRespawningConfig : ModConfig
@@ -228,7 +229,7 @@ public class ImprovedRespawningConfig : ModConfig
         {
             string playerName = Main.player[whoAmI].name;
             bool isAdmin = ImprovedRespawningModSystem.Instance.IsUserAdmin(playerName);
-            if(!isAdmin) message = NetworkText.FromLiteral("There are one or more admins in the server and you are not one of them!");
+            if(!isAdmin) message = NetworkText.FromLiteral(Localization.RejectConfigChangesNotAnAdmin.Value);
             return isAdmin;
         }
         
@@ -236,7 +237,7 @@ public class ImprovedRespawningConfig : ModConfig
         
         if (!LetClientsModifyConfig)
         {
-            message = NetworkText.FromLiteral("Server does not allow changes to config!");
+            message = NetworkText.FromLiteral(Localization.RejectConfigChangesOnlyHost.Value);
             return false;
         }
 
@@ -246,7 +247,7 @@ public class ImprovedRespawningConfig : ModConfig
         if (pendingClientConfig.LetPlayersUseCheatCommands != LetPlayersUseCheatCommands) containsServerOnlyChange = true;
         if (!containsServerOnlyChange) return true;
         
-        message = NetworkText.FromLiteral("This value can be changed only by server!");
+        message = NetworkText.FromLiteral(Localization.RejectConfigChangesServerOnlySetting.Value);
         return false;
     }
 }

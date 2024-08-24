@@ -170,3 +170,4 @@ C:\Users\BlinDeex\Documents\My Games\Terraria\tModLoader\ModSources\ImprovedResp
 C:\Users\BlinDeex\Documents\My Games\Terraria\tModLoader\ModSources\ImprovedRespawning\obj\Debug\net8.0\refint\ImprovedRespawning.dll
 C:\Users\BlinDeex\Documents\My Games\Terraria\tModLoader\ModSources\ImprovedRespawning\obj\Debug\net8.0\ImprovedRespawning.pdb
 C:\Users\BlinDeex\Documents\My Games\Terraria\tModLoader\ModSources\ImprovedRespawning\obj\Debug\net8.0\ref\ImprovedRespawning.dll
+C:\Users\BlinDeex\Documents\My Games\Terraria\tModLoader\ModSources\ImprovedRespawning\obj\Debug\net8.0\ImprovedRespawning.sourcelink.json

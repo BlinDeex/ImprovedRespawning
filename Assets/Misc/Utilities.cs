@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ImprovedRespawning.Assets.MainClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
@@ -10,12 +11,12 @@ using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static ImprovedRespawning.Assets.Misc.Constants;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.Misc;
 
 public static class Utilities
 {
-    public const string VERSION = "1.1.1v";
     public static bool KeyTyped(Keys key)
     {
         return Main.keyState.IsKeyDown(key) && !Main.oldKeyState.IsKeyDown(key);
@@ -52,18 +53,22 @@ public static class Utilities
 
         if (!ModContent.GetInstance<ImprovedRespawningConfig>().RespawnOnPlayer)
         {
+            const string message = $"{nameof(TryGetPlayerToSpawnOn)}: RespawnOnPlayer config value is false";
+            LogMessage(message, LogType.Debug);
             return false;
         }
         
         if (!ImprovedRespawningModSystem.Instance.BossActive || Main.netMode == NetmodeID.SinglePlayer)
         {
+            const string message = $"{nameof(TryGetPlayerToSpawnOn)}: No boss active or single player";
+            LogMessage(message, LogType.Debug);
             return false;
         }
         
         if (Main.dedServ)
         {
-            Log("TryGetPlayerToSpawnOn called on server!", true);
-            BroadcastOrNewText("TryGetPlayerToSpawnOn called on server!", Color.Red);
+            const string message = $"{nameof(TryGetPlayerToSpawnOn)}: somehow called on server";
+            LogMessage(message, LogType.Warning);
             return false;
         }
 
@@ -102,35 +107,67 @@ public static class Utilities
     {
         return source != null && source.Contains(toCheck, comp);
     }
-
+    
     /// <summary>
-    /// logging for dedicated server
+    /// Logs message into server console, client and server logs where appropriate
     /// </summary>
-    public static void ConsoleMessage(string message, bool isFailure = false)
+    public static void LogMessage(string message, LogType logType)
     {
-        Mod mod = ImprovedRespawning.Instance;
-        Console.ForegroundColor = isFailure ? ConsoleColor.Red : ConsoleColor.DarkCyan;
+        
         StringBuilder sb = new();
-        sb.Append("[ImprovedRespawning ");
-        sb.Append(VERSION);
-        sb.Append("] ");
-        sb.Append(message);
-        mod.Logger.Info(sb.ToString());
-        Console.WriteLine(sb.ToString());
-        
-        Console.ResetColor();
-    }
-
-    public static void Log(string message, bool isFailure)
-    {
-        Mod mod = ModContent.GetInstance<ImprovedRespawning>();
-        if (isFailure)
+        sb.Append($"[Improved Respawning {VERSION}] ");
+        string logPrefix = logType switch
         {
-            mod.Logger.Error($"RESPAWNERROR: {message}");
-            return;
-        }
+            LogType.Debug => "Debug: ",
+            LogType.Log => "Log: ",
+            LogType.Warning => "Warning: ",
+            LogType.Error => "Error: ",
+            LogType.Important => ""
+        };
+        sb.Append(logPrefix);
+        sb.Append(message);
         
-        mod.Logger.Info($"RESPAWNLOG: {message}");
+        string finalMessage = sb.ToString();
+
+        if (Main.netMode == NetmodeID.Server)
+        {
+            ConsoleColor targetColor = logType switch
+            {
+                LogType.Debug => DEBUG_COLOR,
+                LogType.Log => LOG_COLOR,
+                LogType.Warning => WARNING_COLOR,
+                LogType.Error => ERROR_COLOR,
+                LogType.Important => LOG_COLOR,
+                _ => throw new ArgumentOutOfRangeException(nameof(logType), logType,
+                    "strictly speaking possible to happen but cmon")
+            };
+            Console.ForegroundColor = targetColor;
+            Console.WriteLine(finalMessage);
+            Console.ResetColor();
+        }
+
+        Mod mod = MainClasses.ImprovedRespawning.Instance;
+
+        switch (logType)
+        {
+            case LogType.Debug:
+                mod.Logger.Debug(finalMessage);
+                break;
+            case LogType.Log:
+                mod.Logger.Info(finalMessage);
+                break;
+            case LogType.Warning:
+                mod.Logger.Warn(finalMessage);
+                break;
+            case LogType.Error:
+                mod.Logger.Error(finalMessage);
+                break;
+            case LogType.Important:
+                mod.Logger.Info(finalMessage);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(logType), logType, null);
+        }
     }
     
     /// <summary>

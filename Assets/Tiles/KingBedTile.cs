@@ -1,4 +1,5 @@
 ﻿using ImprovedRespawning.Assets.Items;
+using ImprovedRespawning.Assets.MainClasses;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

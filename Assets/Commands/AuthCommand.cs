@@ -1,4 +1,5 @@
 ﻿using ImprovedRespawning.Assets.Hardcore;
+using ImprovedRespawning.Assets.Misc;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

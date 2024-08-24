@@ -2,11 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using ImprovedRespawning.Assets.Hardcore;
-using Microsoft.Xna.Framework;
-using Terraria;
+using ImprovedRespawning.Assets.Misc;
 using Terraria.ModLoader;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.MainClasses;
 public class ImprovedRespawning : Mod
 {
     private static Type interfaceType;
@@ -16,6 +15,7 @@ public class ImprovedRespawning : Mod
     public override void Load()
     {
         Instance = this;
+        Localization.LoadLocalization();
     }
 
     public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -26,7 +26,7 @@ public class ImprovedRespawning : Mod
         {
             case PacketDataType.TurnToGhost:
                 bool trueOrFalse = reader.ReadBoolean();
-                Main.LocalPlayer.ghost = trueOrFalse;
+                Terraria.Main.LocalPlayer.ghost = trueOrFalse;
                 break;
             case PacketDataType.CleanseWorld:
                 HardcoreModuleModSystem.Instance.CleanseWorld();
@@ -37,14 +37,14 @@ public class ImprovedRespawning : Mod
                 break;
             case PacketDataType.TryAuth:
                 string code = reader.ReadString();
-                ImprovedRespawningModSystem.Instance.TryAddAdminUser(Main.player[whoAmI].name, code);
+                ImprovedRespawningModSystem.Instance.TryAddAdminUser(Terraria.Main.player[whoAmI].name, code);
                 break;
         }
     }
 
     public override void PostSetupContent()
     {
-        interfaceType = typeof(Main).Assembly.GetType("Terraria.ModLoader.UI.Interface");
+        interfaceType = typeof(Terraria.Main).Assembly.GetType("Terraria.ModLoader.UI.Interface");
         ModConfigRef = interfaceType?.GetField("modConfig", (BindingFlags)40)?.GetValue(null);
     }
 }

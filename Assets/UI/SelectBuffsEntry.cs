@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ImprovedRespawning.Assets.MainClasses;
+using ImprovedRespawning.Assets.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -248,7 +250,8 @@ public class SelectBuffsEntry : UIElement
         {
             if (!Main.LocalPlayer.TryGetModPlayer(out ImprovedRespawningPlayer player))
             {
-                Utilities.Log("couldnt get modplayer in ToggleBuff!", true);
+                const string message = $"{nameof(ToggleBuff)}: Failed to get ImprovedRespawningPlayer!";
+                Utilities.LogMessage(message, LogType.Error);
                 return;
             }
 

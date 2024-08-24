@@ -43,24 +43,25 @@ Enable Hardcore UI > displays player and/or world lives UI you can drag around
 
 [b]Other settings:[/b]
 Instant respawn > always instantly respawn
-Disable tombstones > tombstones dont spawn on death
-Buffs you will always spawn with > custom buff selection grid to choose buffs you will always spawn with
+Disable tombstones > tombstones wont spawn on death
+Buffs you will always spawn with > custom buff selection grid to choose buffs you will always spawn with (only appears in-game)
 
 [b]Chat Commands:[/b]
-/Revive - revives you instantly, exists in case of messed up settings soft locking character into hours of respawn timer, can be set to work only on the host.
-/CleanseWorld - resets world total death count, useful if everyone became ghosts by reaching maximum world deaths
-/CleanseMe - resets player who used the command deaths and reverts ghost state
-/IRAuth (code) - gives user admin permissions
+/Revive > revives you instantly
+/CleanseWorld > resets world total death count, useful if everyone became ghosts by reaching maximum world deaths
+/CleanseMe > resets player who used the command deaths and reverts ghost state
+/IRAuth <code> > gives user admin permissions
+[b]All commands can be set to be usable only by host, authenticated admins or everyone[/b]
 
 [b]Console Commands (server):[/b]
-/GetIRAuth - displays code required to get admin permissions
-/ClearAdmins - clears all current admins
+GetIRAuth > displays code required to get admin permissions
+ClearAdmins > clears all current admins
+RegenIRAuth > recreates auth code
 
-latest version [b]1.1.1v[/b]
-Added dedicated server support, become an admin by using /IRAuth command, you can check required code in server console by typing in "GetIRAuth", if there are any
-admins only them will have permissions to change the config, "ClearAdmins" console command clears all admins (if you notice any bugs report them in the comments)
+latest version [b]1.1.2v[/b]
+some small stuff and cleanup, now its possible to change auth code
 
 all big mods should be compatible, but I only test calamity
 
-If mod doesn't work,it is probably because of another mod with respawn timer changes in it, if configs allow, disable all other respawn timer changes before loading my mod[quote=tModLoader ImprovedRespawning]
+[quote=tModLoader ImprovedRespawning]
 Developed By BlinDeex[/quote]

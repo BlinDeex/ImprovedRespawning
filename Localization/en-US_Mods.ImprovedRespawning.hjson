@@ -182,11 +182,25 @@ Items: {
 	}
 }
 
-HUD: {
+You_Died: {
 	RespawnInText: Respawn in
-	PermDeathText: Permanent Death! Wait for boss to disappear
-	YouDiedToThisBossText: You died to this boss {0} out of {1} times!
-	LastChanceText: This is your last chance!
-	RespawnInSecondsText: "{0} {^0:second;seconds}"
 	RespawnInMinutesText: "{0} {^0:minute;minutes} and "
+	RespawnInSecondsText: "{0} {^0:second;seconds}"
+	LastChanceText: This is your last chance!
+	YouDiedToThisBossText: You died to this boss {0} out of {1} times!
+	PermDeathText: Permanent Death! Wait for boss to disappear
+}
+
+Logging: {
+	AuthCodeMessage: auth code: {0}, use command /irauth {0} to get admin permissions,\nif theres one or more admins, config changes will only be accepted from them. use /ClearAdmins command to clear all admins"
+	PlayerKilledIncreasingWorldDeaths: "{0} has been killed! Increasing world deaths to {1}"
+	WorldHasExceededDeaths: This world has reached its maximum deaths!
+	RejectConfigChangesNotAnAdmin: There are one or more admins in the server and you are not one of them!
+	RejectConfigChangesOnlyHost: Server does not allow changes to config!
+	RejectConfigChangesServerOnlySetting: This value can be changed only by server!
+	PlayerHasExceededDeaths: You are dead for good in this world!
+	ClearedAdmins: Admins successfully cleared
+	AddedAdmin: Successfully authenticated as admin
+	CodeInvalid: Invalid code!
+	RegenAuth: Auth code regenerated
 }

@@ -1,4 +1,5 @@
 ﻿using ImprovedRespawning.Assets.Hardcore;
+using ImprovedRespawning.Assets.MainClasses;
 using Terraria.ModLoader;
 
 namespace ImprovedRespawning.Assets.Commands;

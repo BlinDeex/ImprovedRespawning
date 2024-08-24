@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImprovedRespawning.Assets.Misc;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace ImprovedRespawning.Assets;
+namespace ImprovedRespawning.Assets.MainClasses;
 
 public class ImprovedRespawningPlayer : ModPlayer
 {
@@ -30,7 +31,8 @@ public class ImprovedRespawningPlayer : ModPlayer
         }
         catch(Exception e)
         {
-            Utilities.Log($"LoadData failed! {e.Message}", true);
+            string message = $"{nameof(LoadData)}: Failure! {e.Message}";
+            Utilities.LogMessage(message, LogType.Error);
         }
     }
 
@@ -123,7 +125,8 @@ public class ImprovedRespawningPlayer : ModPlayer
             }
             catch
             {
-                Utilities.Log($"Failed to apply Buff! ID: {buffID}", true);
+                string message = $"{nameof(OnRespawn)}: Failed to apply buff! ID: {buffID} Name: {BuffLoader.GetBuff(buffID).Name}";
+                Utilities.LogMessage(message, LogType.Important);
             }
         }
     }
